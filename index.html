@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmbroBuddies - Embroidery Services</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1a1a1a', // Original dark color
+                        // Replaced gold with green palette
+                        'accent-green': '#4CAF50', // A nice mid-tone green
+                        'dark-green-start': '#388E3C', // Darker green for gradient start
+                        'light-green-end': '#8BC34A', // Lighter green for gradient end
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS to handle the vertical text rotation */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        /* Ensure the body covers the full screen */
+        body {
+            /* Inter */
+            font-family: 'Inter', sans-serif;
+            background-color: #58585884;
+        }
+
+        /* Styling for the background image and overlay */
+        .hero-background {
+            /* Using a dark placeholder image to mimic the moody desk setup */
+            background-image: url('./assets/images/brown-retro-electronic-sewing-machine-device.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .overlay {
+            /* Dark semi-transparent overlay to ensure white text pops */
+            background-color: rgba(0, 0, 0, 0.297);
+            display: block;
+        }
+
+        /* Styling the unique logo structure */
+        .logo-text span:last-child {
+            font-weight: 700;
+        }
+
+        /* Custom Green Gradient for the AI Button and Main CTA */
+        .ai-pitch-button {
+            /* Using custom colors defined in tailwind config */
+            background-image: linear-gradient(to right, var(--tw-colors-dark-green-start), var(--tw-colors-accent-green));
+            color: white; /* Changed to white for better visibility on green */
+            /* Removed 'border: none;' here to allow Tailwind border classes to work */
+            transition: all 0.3s ease;
+        }
+        .ai-pitch-button:hover {
+            /* Lighter gradient and subtle lift on hover */
+            background-image: linear-gradient(to right, var(--tw-colors-accent-green), var(--tw-colors-light-green-end));
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4); /* Green shadow */
+            transform: translateY(-2px);
+        }
+
+        /* Vibrant Gradient Text for the main headline and About section */
+        .text-vibrant-gradient {
+            /* Applying the user's gradient as the background */
+            /* background: linear-gradient(90deg, rgba(129,21,255,1) 0%, rgba(255,42,208,1) 50%, rgba(255,143,42,1) 100%); */
+            /* background: linear-gradient(90deg, #FFF000 0%, #C6FF00 50%, #00E676 100%); */
+             background: linear-gradient(90deg, #FFF000 0%, #C6FF00 50%, #00E676 100%);
+
+            /* Clipping the background to the text area */
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* Making the text transparent so the clipped background shows through */
+            -webkit-text-fill-color: transparent;
+            /* Ensuring it's treated as a block for the clip to work */
+            display: inline-block;
+        }
+
+        /* Card styling for Mission/Vision/Goal blocks */
+        .info-card {
+            background-color: #0d0d0d; /* Slightly lighter than pure black */
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            border-color: var(--tw-colors-accent-green);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* Styling for the Product Cards and Gallery Items */
+        .product-card {
+            background-color: #0d0d0d;
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-card:hover {
+            border-color: rgba(129,21,255,0.5); /* Use a hint of the vibrant gradient */
+            box-shadow: 0 10px 30px rgba(129,21,255,0.1);
+            /* Reset the transform to prevent conflicts with gallery hover */
+            transform: none; 
+        }
+
+        .gallery-item {
+            /* Ensure gallery items also use the smooth hover */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            height: 100%; /* Important for grid/masonry effect */
+        }
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(129, 21, 255, 0.15);
+        }
+        
+        /* Apply height 0 to direct children of gallery-grid to facilitate masonry-like effect */
+        #gallery-grid > div {
+            min-height: 200px; /* Base minimum height */
+        }
+
+        /* --- SCROLL REVEAL CSS ADDED HERE --- */
+        .scroll-reveal-item {
+            transition: opacity 800ms ease-out, transform 800ms ease-out;
+        }
+
+        .is-hidden {
+            opacity: 0;
+            transform: translateY(40px); /* Start 40px below final position */
+        }
+        .reveal-fade-left {
+            transform: translateX(40px); /* Start 40px right of final position */
+        }
+        .reveal-fade-right {
+            transform: translateX(-40px); /* Start 40px left of final position */
+        }
+        /* --- END SCROLL REVEAL CSS --- */
+
+        /* Map Placeholder Styling */
+        .map-placeholder {
+            background-color: #0d0d0d;
+            border: 1px solid #222;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Hero Section Container (Full Viewport Height) --><div class="relative h-screen overflow-hidden">
+
+        <!-- Background Image & Overlay --><div class="hero-background"></div>
+        <div class="overlay absolute inset-0"></div>
+
+        <!-- Main Content Wrapper --><div class="relative z-10 px-3 flex flex-col h-full">
+
+            <!-- Header / Navbar --><header class="flex justify-between items-center mb-16 scroll-reveal-item is-hidden">
+                <img src="./assets/images/embrobuddyz.png" alt="Embro buddyz" class="h-32 w-auto object-contain" />
+                <!-- Navigation Menu -->
+                <nav class="hidden md:flex space-x-8 text-white font-medium">
+                    <a href="#hero" class="hover:text-accent-green transition duration-300" data-key="home">Home</a>
+                    <a href="#about-us" class="hover:text-accent-green transition duration-300" data-key="about">About</a>
+                    <a href="#products" class="hover:text-accent-green transition duration-300" data-key="products">Products</a>
+                    <a href="#gallery" class="hover:text-accent-green transition duration-300" data-key="gallery">Gallery</a>
+                    <a href="#trust-newsletter" class="hover:text-accent-green transition duration-300" data-key="contact">Contact</a>
+                </nav>
+                <!-- Translate Button -->
+                <div class="relative">
+                    <button id="translate-btn" class="text-white text-lg px-4 py-2 rounded-lg hover:bg-white/10 transition duration-300" data-key="translate">
+                        Translate
+                    </button>
+                    <div id="language-menu" class="hidden absolute right-0 mt-2 w-48 bg-black border border-gray-700 rounded-lg shadow-lg z-10">
+                        <button data-lang="en" class="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition" data-key="english">English</button>
+                        <button data-lang="ta" class="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition" data-key="tamil">தமிழ் (Tamil)</button>
+                        <button data-lang="ml" class="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition" data-key="malayalam">മലയാളം (Malayalam)</button>
+                    </div>
+                </div>
+                 <!-- Menu Icon (Hamburger) --><button class="text-white text-3xl p-2 md:p-4 rounded-full hover:bg-white/10 transition md:hidden">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                      </svg>
+                  </button>
+              </header>
+
+           <!-- Social Media Icons (Fixed Left Sidebar) -->
+<div class="hidden md:flex flex-col space-y-4 fixed left-0 top-1/2 -translate-y-1/2 ml-4 scroll-reveal-item is-hidden reveal-fade-right" data-delay="300">
+  
+  <!-- YouTube -->
+  <!-- <a href="#" target="_blank" class="transform hover:scale-110 transition duration-300">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" 
+         alt="YouTube" 
+         class="h-7 w-7 invert hover:invert-0 hover:brightness-110 hover:drop-shadow-[0_0_5px_#FF0000] transition" />
+  </a> -->
+
+  <!-- LinkedIn -->
+  <!-- <a href="#" target="_blank" class="transform hover:scale-110 transition duration-300">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" 
+         alt="LinkedIn" 
+         class="h-7 w-7 invert hover:invert-0 hover:brightness-110 hover:drop-shadow-[0_0_5px_#0A66C2] transition" />
+  </a> -->
+
+  <!-- Instagram -->
+  <!-- <a href="#" target="_blank" class="transform hover:scale-110 transition duration-300">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" 
+         alt="Instagram" 
+         class="h-7 w-7 invert hover:invert-0 hover:brightness-110 hover:drop-shadow-[0_0_5px_#E4405F] transition" />
+  </a> -->
+
+  <!-- WhatsApp -->
+  <!-- <a href="#" target="_blank" class="transform hover:scale-110 transition duration-300">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" 
+         alt="WhatsApp" 
+         class="h-7 w-7 invert hover:invert-0 hover:brightness-110 hover:drop-shadow-[0_0_5px_#25D366] transition" />
+  </a> -->
+
+</div>
+
+
+            <!-- Main Title and CTA Block --><div class="flex-grow flex items-center w-full">
+                <div class="max-w-4xl pr-8">
+                    <!-- Main Heading --><h2 class="text-4xl sm:text-6xl md:text-7xl lg:text-5xl font-extrabold leading-tight mb-8 drop-shadow-lg scroll-reveal-item is-hidden" data-delay="600" data-key="hero-title">
+                        Kerala's most trusted brand: <br class="hidden md:block">
+                        <!-- Applied the vibrant gradient text class here --><span class="text-vibrant-gradient">Precision with Exceptional quality</span>
+                    </h2>
+
+                    <!-- CTA Button - Now using the green gradient --><button class="ai-pitch-button font-medium py-3 px-8 rounded-lg border-2 border-white hover:text-primary-dark transition duration-300 shadow-xl scroll-reveal-item is-hidden" data-delay="900" data-key="explore-products">
+                        Explore Our Products
+                    </button>
+
+                    <!-- Supporting Text --><div class="mt-12 max-w-xl scroll-reveal-item is-hidden" data-delay="1200">
+                        <h3 class="text-xl font-semibold mb-2" data-key="hero-subtitle">Exclusive Embroidery Offers You Can’t Miss!</h3>
+<p class="text-gray-300 text-sm" data-key="hero-description">
+    Get premium custom embroidery starting at just ₹299 — quality designs tailored to your brand.
+</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical Text Feature (Fixed Right) --><div class="absolute right-0 top-0 h-full hidden lg:flex items-center justify-center p-4 pointer-events-none">
+                <!-- <div class="vertical-text text-right text-sm tracking-widest uppercase font-light text-gray-400 scroll-reveal-item is-hidden reveal-fade-left" data-delay="300">
+                    Crafting exceptional, detailed, and high-quality embroidery designs for businesses.
+                    <span class="block mt-48 text-7xl font-extrabold tracking-[0.5em] text-white/50">DESIGN</span>
+                </div> -->
+            </div>
+
+            <!-- Bottom Pager/Navigation Dots --><div class="flex justify-center space-x-2 pb-6 scroll-reveal-item is-hidden" data-delay="1500">
+                <div class="w-2 h-2 rounded-full bg-white/30 cursor-pointer"></div>
+                <div class="w-5 h-2 rounded-full bg-white cursor-pointer"></div>
+                <div class="w-2 h-2 rounded-full bg-white/30 cursor-pointer"></div>
+                <div class="w-2 h-2 rounded-full bg-white/30 cursor-pointer"></div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Arrows (Right Edge) --><div class="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col space-y-4 text-gray-400/50 hidden lg:block scroll-reveal-item is-hidden reveal-fade-left" data-delay="600">
+             <button class="text-2xl hover:text-white transition duration-200">
+                &lt;
+            </button>
+            <button class="text-2xl hover:text-white transition duration-200">
+                &gt;
+            </button>
+        </div>
+    </div>
+
+
+    <!-- About Section (Based on uploaded image) --><section id="about-us" class="bg-black py-20 px-6 sm:px-10 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
+            <!-- Text Content (Left) --><div class="lg:w-1/2 w-full pr-0 lg:pr-12 mb-10 lg:mb-0 relative scroll-reveal-item is-hidden reveal-fade-right">
+                
+                <!-- Titles -->
+                <h2 class="text-5xl sm:text-7xl font-extrabold leading-none mb-3">
+                    <span class="" data-key="about-title">About</span>
+                </h2>
+                <h2 class="text-5xl sm:text-7xl font-extrabold leading-none mb-6 flex items-center">
+  <span class="text-transparent mr-3 font-extrabold outlined-text" data-key="about-embrobuddies">
+    EMBROBUDDIES...
+  </span>
+  <span class="text-6xl text-orange-500 font-bold leading-none transform translate-y-[-0.05em]">&rarr;</span>
+</h2>
+
+<style>
+  .outlined-text {
+    -webkit-text-stroke: 2px #FFD600; /* border color and thickness */
+    color: transparent; /* make inside hollow */
+  }
+</style>
+
+                
+                <!-- Sub-Headline -->
+                <h3 class="text-2xl font-semibold mb-8 border-l-4 border-accent-green pl-4" data-key="about-subtitle">
+                    Crafting Embroidery Designs, Building Success
+                </h3>
+
+                <!-- Body Text -->
+                <p class="text-gray-300 text-lg mb-12 max-w-lg" data-key="about-description">
+                    At EmbroBuddies, we've successfully completed over 50 custom embroidery projects, ranging from apparel and accessories to promotional items. Our industry experience empowers us to create professional, unique, and affordable embroidery designs tailored for businesses and individuals.
+                </p>
+
+                <!-- 100% Guarantee Block -->
+                <div class="flex items-end justify-between p-6 bg-gray-900 rounded-xl max-w-md shadow-2xl scroll-reveal-item is-hidden" data-delay="300">
+                    <div class="text-sm text-gray-400 max-w-[60%]">
+                        <p class="mb-1" data-key="guarantee1">We guarantee <span class="text-white font-bold">100% client satisfaction</span>.</p>
+                        <p class="mb-1" data-key="guarantee2">Our commitment is unwavering.</p>
+                        <p data-key="guarantee3">Your happiness is our priority.</p>
+                    </div>
+                    <!-- Large 100% text, moved slightly up to align with image -->
+                    <div class="text-8xl font-extrabold text-white leading-none transform translate-y-[0.1em]">
+                        100%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Content (Right) --><div class="lg:w-1/2 w-full h-[350px] sm:h-[500px] lg:h-[700px] relative scroll-reveal-item is-hidden reveal-fade-left">
+                <!-- Placeholder for the professional team image -->
+                <!-- Adjusted placeholder to match the theme: dark background, white text -->
+                <img src="./assets/images/fruit-sewed-design-with-sewing-threads-plant.jpg" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/800x700/000000/eeeeee?text=Team+Placeholder'"
+                     alt="Professional and diverse team members"
+                     class="w-full h-full object-cover rounded-xl shadow-2xl transition duration-500 hover:scale-[1.02] transform origin-center">
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Are? (Company Info Section) --><section id="company-info" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Heading -->
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 scroll-reveal-item is-hidden" data-key="who-we-are">
+                <span class="text-vibrant-gradient">Who We Are?</span>
+            </h2>
+
+            <!-- Three Content Blocks Container (Responsive Grid) --><div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                
+                <!-- Mission Card --><div class="info-card p-6 rounded-xl scroll-reveal-item is-hidden" data-delay="100">
+                    <h3 class="text-2xl font-bold mb-3 text-accent-green" data-key="mission">Mission</h3>
+                    <p class="text-gray-300" data-key="mission-text">
+                        To empower businesses and individuals by delivering high-quality, custom embroidery designs that enhance branding and create lasting impressions with professional craftsmanship.
+                    </p>
+                </div>
+
+                <!-- Vision Card --><div class="info-card p-6 rounded-xl scroll-reveal-item is-hidden" data-delay="300">
+                    <h3 class="text-2xl font-bold mb-3 text-accent-green" data-key="vision">Vision</h3>
+                    <p class="text-gray-300" data-key="vision-text">
+                        To be the global leader in innovative embroidery services, recognized for unparalleled quality, client-centric designs, and pioneering the next generation of custom embroidery solutions.
+                    </p>
+                </div>
+
+                <!-- Goal Card --><div class="info-card p-6 rounded-xl scroll-reveal-item is-hidden" data-delay="500">
+                    <h3 class="text-2xl font-bold mb-3 text-accent-green" data-key="goal">Goal</h3>
+                    <p class="text-gray-300" data-key="goal-text">
+                        Our immediate goal is to expand our portfolio to 100 successfully completed embroidery projects within the next year, maintaining our 100% client satisfaction record through excellence and reliability.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Read More Link (Centered) --><div class="text-center scroll-reveal-item is-hidden" data-delay="700">
+                <a href="#about-us" class="text-lg font-semibold text-white hover:text-accent-green transition duration-300 border-b border-white hover:border-accent-green pb-1" data-key="read-more">
+                    Read More about Our Story &rarr;
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Our Range of Products Section --><section id="products" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Heading -->
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 scroll-reveal-item is-hidden" data-key="range-of-products">
+                Our <span class="text-vibrant-gradient">Range of Products</span>
+            </h2>
+
+            <!-- Product Grid Container --><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                
+                <!-- S.H. (Single Head) Card --><div class="product-card rounded-xl shadow-xl scroll-reveal-item is-hidden" data-delay="100">
+                    <img src="https://placehold.co/600x400/1e1e1e/ffffff?text=S.H.+System" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e1e1e/ffffff?text=Single+Head'"
+                         alt="Single Head System"
+                         class="w-full h-40 object-cover rounded-t-xl opacity-80 transition duration-300 group-hover:opacity-100">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white" data-key="single-head">S.H. (Single Head)</h3>
+                        <p class="text-gray-400 text-sm" data-key="single-head-desc">
+                            The foundational embroidery machine for focused, high-precision stitching. Ideal for small businesses requiring robust, single-head capability.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- S.H. (Single Head – Variant) Card --><div class="product-card rounded-xl shadow-xl scroll-reveal-item is-hidden" data-delay="250">
+                    <img src="https://placehold.co/600x400/1e1e1e/ffffff?text=S.H.+Variant"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e1e1e/ffffff?text=Single+Head+Variant'"
+                         alt="Single Head Variant System"
+                         class="w-full h-40 object-cover rounded-t-xl opacity-80 transition duration-300 group-hover:opacity-100">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white" data-key="single-head-variant">S.H. (Variant)</h3>
+                        <p class="text-gray-400 text-sm" data-key="single-head-variant-desc">
+                            An advanced, specialized version of the Single Head embroidery machine, offering increased stitching speed and custom design integration.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- M.H. (Multi Head) Card --><div class="product-card rounded-xl shadow-xl scroll-reveal-item is-hidden" data-delay="400">
+                    <img src="https://placehold.co/600x400/1e1e1e/ffffff?text=M.H.+System" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e1e1e/ffffff?text=Multi+Head'"
+                         alt="Multi Head System"
+                         class="w-full h-40 object-cover rounded-t-xl opacity-80 transition duration-300 group-hover:opacity-100">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">M.H. (Multi Head)</h3>
+                        <p class="text-gray-400 text-sm">
+                            Engineered for complex, multi-layered embroidery designs. Delivers parallel stitching power for high-demand projects and bulk orders.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Laser Cut Card --><div class="product-card rounded-xl shadow-xl scroll-reveal-item is-hidden" data-delay="550">
+                    <img src="https://placehold.co/600x400/1e1e1e/ffffff?text=Laser+Cut+Module" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e1e1e/ffffff?text=Laser+Cut'"
+                         alt="Laser Cut Module"
+                         class="w-full h-40 object-cover rounded-t-xl opacity-80 transition duration-300 group-hover:opacity-100">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Laser Cut</h3>
+                        <p class="text-gray-400 text-sm">
+                            Precision laser cutting module designed for flawless, intricate fabric cutting and ultra-fine embroidery preparation.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- View All Products Button (Centered) --><div class="text-center mt-10 scroll-reveal-item is-hidden" data-delay="700">
+                <button class="ai-pitch-button font-medium py-3 px-8 rounded-lg border-2 border-white hover:text-primary-dark transition duration-300 shadow-xl">
+                    View All Products &rarr;
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Social Proof / Achievements Section --><section id="achievements" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Heading -->
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 scroll-reveal-item is-hidden" data-key="achievements">
+                <span class="text-vibrant-gradient">Our Achievements</span> & Social Proof
+            </h2>
+
+            <!-- Counter Grid Container --><div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                
+                <!-- Counter 1: Years -->
+                <div class="text-center p-6 bg-gray-900 rounded-xl shadow-2xl transition duration-300 hover:bg-gray-800 transform hover:scale-[1.05] scroll-reveal-item is-hidden" data-delay="100">
+                    <!-- Icon: Clock/Time --><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-5xl font-extrabold text-white mb-2">25+</p>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm" data-key="years-experience">Years of Experience</p>
+                </div>
+
+                <!-- Counter 2: Customers -->
+                <div class="text-center p-6 bg-gray-900 rounded-xl shadow-2xl transition duration-300 hover:bg-gray-800 transform hover:scale-[1.05] scroll-reveal-item is-hidden" data-delay="300">
+                    <!-- Icon: Users --><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <p class="text-5xl font-extrabold text-white mb-2">800+</p>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm" data-key="satisfied-customers">Satisfied Customers</p>
+                </div>
+
+                <!-- Counter 3: Trainings -->
+                <div class="text-center p-6 bg-gray-900 rounded-xl shadow-2xl transition duration-300 hover:bg-gray-800 transform hover:scale-[1.05] scroll-reveal-item is-hidden" data-delay="500">
+                    <!-- Icon: Book/Training --><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.468 9.245 5.26 7.749 5.76c-1.26.417-2.094 1.258-2.5 2.5l-.25 1.5c.34-.14 1.05.07 1.5.5s.53 1.13.25 1.75c-.28.62-1.05 1.25-1.75 1.5s-1.5-.14-2-1.5c-.5-.87.41-2.14 1.5-2.5s2.34-.07 3.5.25m4.25-4.5c1.16-.32 2.76-.11 4 .25 1.25.41 2.08 1.25 2.5 2.5l.25 1.5c-.34-.14-1.05.07-1.5.5s-.53 1.13-.25 1.75c.28.62 1.05 1.25 1.75 1.5s1.5-.14 2-1.5c.5-.87-.41-2.14-1.5-2.5s-2.34-.07-3.5.25" />
+                    </svg>
+                    <p class="text-5xl font-extrabold text-white mb-2">1000+</p>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm" data-key="custom-designs">Custom Designs</p>
+                </div>
+
+                <!-- Counter 4: Exhibitions -->
+                <div class="text-center p-6 bg-gray-900 rounded-xl shadow-2xl transition duration-300 hover:bg-gray-800 transform hover:scale-[1.05] scroll-reveal-item is-hidden" data-delay="700">
+                    <!-- Icon: Trophy/Award --><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <p class="text-5xl font-extrabold text-white mb-2">30+</p>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm" data-key="industry-exhibitions">Industry Exhibitions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Heading -->
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 scroll-reveal-item is-hidden" data-key="gallery">
+                Our <span class="text-transparent font-extrabold outlined-text">Gallery</span> of Excellence
+            </h2>
+
+            <!-- Image Grid Container (Attempting a subtle masonry/dynamic feel) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid">
+                
+                <!-- Item 1: Product Shot (Tall) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-1 row-span-2 scroll-reveal-item is-hidden" data-delay="100" data-img="https://placehold.co/800x1200/151515/8BC34A?text=Custom+Embroidery+Sample">
+                    <img src="https://placehold.co/800x1200/151515/8BC34A?text=Custom+Embroidery+Sample" alt="Custom Embroidery Sample" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+
+                <!-- Item 2: Training Session -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-1 scroll-reveal-item is-hidden" data-delay="250" data-img="https://placehold.co/800x600/1e1e1e/8BC34A?text=Workshop+Highlight">
+                    <img src="https://placehold.co/800x600/1e1e1e/8BC34A?text=Workshop+Highlight" alt="Workshop Highlight" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+                
+                <!-- Item 3: Exhibition Highlight -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-1 scroll-reveal-item is-hidden" data-delay="400" data-img="https://placehold.co/800x600/1e1e1e/8BC34A?text=Exhibition+Booth">
+                    <img src="https://placehold.co/800x600/1e1e1e/8BC34A?text=Exhibition+Booth" alt="Exhibition Booth" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+
+                <!-- Item 4: Embroidery Showcase (Wide) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-2 md:col-span-1 scroll-reveal-item is-hidden" data-delay="550" data-img="https://placehold.co/1200x800/1e1e1e/8BC34A?text=Wide+Embroidery+Showcase">
+                    <img src="https://placehold.co/1200x800/1e1e1e/8BC34A?text=Wide+Embroidery+Showcase" alt="Wide Embroidery Showcase" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+
+                 <!-- Item 4: Embroidery Showcase (Wide) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-2 md:col-span-1 scroll-reveal-item is-hidden" data-delay="550" data-img="https://placehold.co/1200x800/1e1e1e/8BC34A?text=Wide+Embroidery+Showcase">
+                    <img src="https://placehold.co/1200x800/1e1e1e/8BC34A?text=Wide+Embroidery+Showcase" alt="Wide Embroidery Showcase" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+                
+                <!-- Item 5: Video Placeholder (Square) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-1 relative flex items-center justify-center scroll-reveal-item is-hidden" data-delay="700" data-img="https://placehold.co/800x800/151515/8BC34A?text=Embroidery+Video+Preview">
+                    <img src="https://placehold.co/800x800/151515/8BC34A?text=Embroidery+Video+Preview" alt="Embroidery Video Preview" class="w-full h-full object-cover opacity-70 transition duration-300 hover:scale-105" />
+                    <!-- Play Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 absolute text-white/90" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 108 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                
+
+                <!-- Item 6: Embroidery Certificate -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-1 scroll-reveal-item is-hidden" data-delay="850" data-img="https://placehold.co/800x600/1e1e1e/8BC34A?text=Embroidery+Certificate">
+                    <img src="https://placehold.co/800x600/1e1e1e/8BC34A?text=Embroidery+Certificate" alt="Embroidery Certificate" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+
+                <!-- Item 7: Team Photo (Exhibition) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-2 md:col-span-2 scroll-reveal-item is-hidden" data-delay="1000" data-img="https://placehold.co/1600x800/151515/8BC34A?text=Exhibition+Team+Photo">
+                    <img src="https://placehold.co/1600x800/151515/8BC34A?text=Exhibition+Team+Photo" alt="Exhibition Team Photo" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+                
+                  <!-- Item 7: Team Photo (Exhibition) -->
+                <div class="gallery-item product-card rounded-xl overflow-hidden cursor-pointer col-span-2 md:col-span-2 scroll-reveal-item is-hidden" data-delay="1000" data-img="https://placehold.co/1600x800/151515/8BC34A?text=Exhibition+Team+Photo">
+                    <img src="https://placehold.co/1600x800/151515/8BC34A?text=Exhibition+Team+Photo" alt="Exhibition Team Photo" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+ 
+    </section>
+
+    <!-- Trust Logos & Newsletter Signup Section -->
+    <section id="trust-newsletter" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+            
+            <!-- Column 1: Trust Logos -->
+            <div class="lg:border-r lg:border-gray-800 lg:pr-16 scroll-reveal-item is-hidden reveal-fade-right">
+                <h2 class="text-3xl font-extrabold mb-8" data-key="people-trust">
+                    People Who <span class="text-vibrant-gradient">Trust Us</span>
+                </h2>
+                
+                <div class="grid grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Placeholder Logos -->
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=TECH+MAG" alt="Tech Magazine Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=MAG'" />
+                    </div>
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=GLOBAL+WEB" alt="Global Web Partner Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=WEB'" />
+                    </div>
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=DEV+HUB" alt="Dev Hub Conference Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=DEV'" />
+                    </div>
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=BUSINESS+INSIGHT" alt="Business Insight Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=BIZ'" />
+                    </div>
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=CLOUD+SOLUTIONS" alt="Cloud Solutions Partner Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=CLOUD'" />
+                    </div>
+                    <div class="opacity-70 hover:opacity-100 transition duration-300">
+                        <img src="https://placehold.co/200x80/0d0d0d/888888?text=DESIGN+FORUM" alt="Design Forum Logo" class="w-full h-auto object-contain p-2 rounded-md border border-gray-900" onerror="this.onerror=null;this.src='https://placehold.co/200x80/0d0d0d/888888?text=DESIGN'" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Newsletter Signup -->
+            <div class="lg:pl-16 scroll-reveal-item is-hidden reveal-fade-left">
+                <h2 class="text-3xl font-extrabold mb-8" data-key="stay-updated">
+                    <span class="text-accent-green">Stay Updated</span>
+                </h2>
+                <p class="text-gray-400 mb-6" data-key="newsletter-description">
+                    Join our exclusive mailing list to get the latest insights, product updates, and digital strategy blueprints delivered straight to your inbox.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="newsletter-email" 
+                           class="flex-grow p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-green mb-4"
+                           placeholder="Enter your email address"
+                           aria-label="Email for newsletter signup"
+                    >
+                    <!-- Reuse the AI pitch button styling for consistency -->
+                    <button class="ai-pitch-button font-semibold py-3 px-8 rounded-lg shadow-xl shrink-0" onclick="handleNewsletterSignup()" data-key="subscribe">
+                        Subscribe
+                    </button>
+                </div>
+                <p id="newsletter-message" class="mt-4 text-sm text-gray-400 hidden">
+                    <!-- Message content filled by JS -->
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Request Quote Section --><section id="request-quote" class="bg-black py-20 px-6 sm:px-10 text-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <!-- Left: Form -->
+            <div class="scroll-reveal-item is-hidden reveal-fade-right">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-8" data-key="request-quote">Request a Quote</h2>
+                <form id="quote-form" class="space-y-4">
+                    <div>
+                        <label for="quote-name" class="block text-sm font-medium text-gray-300" data-key="name">Name</label>
+                        <input type="text" id="quote-name" name="name" required class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="quote-email" class="block text-sm font-medium text-gray-300" data-key="email">Email</label>
+                        <input type="email" id="quote-email" name="email" required class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="quote-phone" class="block text-sm font-medium text-gray-300" data-key="phone">Phone</label>
+                        <input type="tel" id="quote-phone" name="phone" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="quote-message" class="block text-sm font-medium text-gray-300" data-key="message">Message</label>
+                        <textarea id="quote-message" name="message" rows="4" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" class="ai-pitch-button w-full font-medium py-3 px-4 rounded-lg transition duration-300 shadow-xl" data-key="submit-request">
+                        Submit Request
+                    </button>
+                </form>
+                <p id="quote-form-message" class="mt-4 text-sm text-gray-400 hidden"></p>
+            </div>
+            <!-- Right: Details -->
+                <div class="scroll-reveal-item is-hidden reveal-fade-left">
+                    <h3 class="text-3xl font-bold mb-6 text-accent-green" data-key="why-choose">Why Choose EmbroBuddies?</h3>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-accent-green mr-3">✓</span>
+                            <span data-key="benefit1">Custom embroidery designs tailored to your brand</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent-green mr-3">✓</span>
+                            <span data-key="benefit2">High-quality materials and professional craftsmanship</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent-green mr-3">✓</span>
+                            <span data-key="benefit3">Fast turnaround times for urgent projects</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent-green mr-3">✓</span>
+                            <span data-key="benefit4">Competitive pricing with no hidden fees</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent-green mr-3">✓</span>
+                            <span data-key="benefit5">100% satisfaction guarantee</span>
+                        </li>
+                    </ul>
+                    <div class="mt-8 p-6 bg-gray-900 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-4" data-key="get-started">Get Started Today</h4>
+                        <p class="text-gray-400" data-key="contact-info">Contact us for a free consultation and quote. We'll help bring your embroidery vision to life.</p>
+                    </div>
+                </div>
+        </div>
+    </section>
+    <!-- Footer Section - Detailed -->
+    <footer class="bg-black py-16 px-6 sm:px-10 border-t border-gray-900 text-white">
+        <div class="max-w-7xl mx-auto">
+            <!-- Main Grid: About (2 cols) | Links (1 col) | Map (1 col) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-10 mb-8 border-b border-gray-800">
+                
+                <!-- Column 1 & 2: About -->
+                <div class="lg:col-span-2">
+                    <img src="./assets/images/embrobuddyz.png" alt="Embro buddyz" class="h-32 w-auto object-contain" />
+                    <p class="text-gray-400 mb-6 max-w-lg text-sm">
+                        EmbroBuddies specializes in creating custom, professional embroidery designs for businesses and individuals. We deliver high-quality embroidery services powered by state-of-the-art machines and a commitment to 100% client satisfaction.
+                    </p>
+                    
+                    <div class="space-y-2 text-gray-300 text-sm">
+                        <div class="flex items-center">
+                            <!-- Location Icon --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="block">123 Digital Blvd, Suite 400, Innovation City, CA 90210</span>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- Email Icon --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <a href="mailto:contact@embrobuddies.com" class="hover:text-white transition">contact@embrobuddies.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- Phone Icon --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.128a11.002 11.002 0 005.672 5.672l1.128-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <a href="tel:+15551234567" class="hover:text-white transition">+1 (555) 123-4567</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 3: Important Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white uppercase tracking-wider" data-key="important-links">Important Links</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#hero" class="hover:text-accent-green transition block" data-key="home">Home</a></li>
+                        <li><a href="#about-us" class="hover:text-accent-green transition block" data-key="about">About Us</a></li>
+                        <li><a href="#products" class="hover:text-accent-green transition block" data-key="products">Products</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition block" data-key="blog">Blog</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition block" data-key="contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4: Map Placeholder -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white uppercase tracking-wider">Our Location</h4>
+                    <div class="map-placeholder rounded-xl shadow-lg">
+                        <p>Google Map Embedded Here<br> (Placeholder)</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Row: Copyright & Policies -->
+            <div class="flex flex-col sm:flex-row justify-between items-center text-gray-500 text-sm">
+                <p class="order-2 sm:order-1 mt-4 sm:mt-0">&copy; <span id="current-year">2024</span> EMBROBUDDIES. All Rights Reserved.</p>
+                
+                <div class="order-1 sm:order-2 space-x-4">
+                    <a href="#" class="hover:text-accent-green transition">Terms & Conditions</a>
+                    <span class="text-gray-700">|</span>
+                    <a href="#" class="hover:text-accent-green transition">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal Structure -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4" onclick="closeLightbox(event)">
+        <div class="relative max-w-5xl w-full max-h-full">
+            <!-- Close Button -->
+            <button class="absolute top-4 right-4 text-white text-4xl p-2 rounded-full bg-black/50 hover:bg-black/80 transition" onclick="closeLightbox(event, true)">
+                &times;
+            </button>
+            <!-- Modal Image -->
+            <img id="lightbox-image" src="" alt="Enlarged Gallery Image" class="max-w-full max-h-[90vh] mx-auto rounded-lg shadow-2xl" />
+            <!-- Image Caption (Optional) -->
+            <p id="lightbox-caption" class="text-white text-center mt-3 text-lg"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript for Gemini API Integration and Scroll Reveal --><script>
+    // Set the current year for the footer copyright dynamically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Global variables for API configuration
+    const apiKey = ""; // Provided by the execution environment
+    const geminiModel = 'gemini-2.5-flash-preview-09-2025';
+    const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+
+    // Helper function for exponential backoff during API calls
+    const fetchWithRetry = async (url, options, maxRetries = 5) => {
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 429 && i < maxRetries - 1) {
+                    const delay = Math.pow(2, i) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    continue;
+                }
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                console.error("Fetch attempt failed:", error);
+                if (i === maxRetries - 1) throw error;
+            }
+        }
+    };
+
+    const generatePitch = async () => {
+        const input = document.getElementById('project-description');
+        const outputDiv = document.getElementById('pitch-output');
+        const outputTitle = document.getElementById('output-title');
+        const sourcesDiv = document.getElementById('citation-sources');
+        const button = document.getElementById('generate-pitch-btn');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const buttonText = document.getElementById('btn-text');
+
+        // Change button text to embroidery theme
+        if (buttonText) buttonText.textContent = 'Draft Embroidery Proposal ✨';
+
+        const businessDescription = input.value.trim();
+
+        if (!businessDescription) {
+            outputDiv.textContent = 'Please describe your business idea first.';
+            outputDiv.classList.add('text-red-400');
+            return;
+        }
+
+        // UI State: Loading
+        button.disabled = true;
+        loadingSpinner.classList.remove('hidden');
+        buttonText.textContent = 'Generating...';
+        outputDiv.textContent = '';
+        outputDiv.classList.remove('text-red-400');
+        outputTitle.classList.add('hidden');
+        sourcesDiv.innerHTML = '';
+
+        const systemPrompt = `You are a senior embroidery consultant for a world-class embroidery services company. Your task is to analyze the user's business idea and generate a compelling, professional, and concise embroidery design proposal.
+
+         The response MUST include three sections:
+         1. *Core Embroidery Service Pitch:* A headline and 2-3 sentence pitch for a highly relevant embroidery solution (e.g., "Create custom embroidered apparel for your brand").
+         2. *Key Feature Suggestions:* A bulleted list of 3-5 essential features for this embroidery service.
+         3. *Next Steps:* A brief professional suggestion on how the client should proceed (e.g., "Schedule a consultation to discuss design details.").
+
+         Base your proposal on current industry best practices for embroidery and use Google Search grounding for market relevance. Format the output using markdown.`;
+
+        const userQuery = `Analyze the following business idea and provide the service proposal as outlined: "${businessDescription}"`;
+
+        const payload = {
+            contents: [{ parts: [{ text: userQuery }] }],
+            tools: [{ google_search: {} }], // Enable Google Search Grounding
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+        };
+
+        try {
+            const response = await fetchWithRetry(geminiApiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                const text = candidate.content.parts[0].text;
+
+                // Display text. Using textContent preserves the formatting (like newlines)
+                outputDiv.textContent = text;
+                outputTitle.classList.remove('hidden');
+
+                // Extract and display grounding sources
+                let sources = [];
+                const groundingMetadata = candidate.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    sources = groundingMetadata.groundingAttributions
+                        .map(attribution => {
+                            const uri = attribution?.web?.uri || '';
+                            const title = attribution?.web?.title || 'Source';
+                            if (!uri) return '';
+                            return `<a href="${uri}" target="_blank" class="text-accent-green hover:underline" title="${title}">${title}</a>`;
+                        })
+                        .filter(Boolean);
+
+                    if (sources.length > 0) {
+                        sourcesDiv.innerHTML = `<span class="font-semibold">Sources:</span> ${sources.join(' | ')}`;
+                    }
+                }
+
+            } else {
+                outputDiv.textContent = 'Error: Could not generate content. The API response was unexpected.';
+                outputDiv.classList.add('text-red-400');
+            }
+
+        } catch (error) {
+            console.error('Gemini API Error:', error);
+            outputDiv.textContent = 'An unexpected error occurred during the API call. Please check the console for details.';
+            outputDiv.classList.add('text-red-400');
+        } finally {
+            // UI State: Complete
+            button.disabled = false;
+            loadingSpinner.classList.add('hidden');
+            buttonText.textContent = 'Draft Service Proposal ✨';
+        }
+    };
+    
+    // --- NEWSLETTER SIGNUP JAVASCRIPT ---
+    const handleNewsletterSignup = () => {
+        const emailInput = document.getElementById('newsletter-email');
+        const messageDiv = document.getElementById('newsletter-message');
+        const email = emailInput.value.trim();
+
+        messageDiv.classList.remove('hidden', 'text-red-400', 'text-accent-green');
+        messageDiv.classList.add('block');
+        
+        // Basic email format check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email === "") {
+            messageDiv.textContent = "Please enter your email address to subscribe.";
+            messageDiv.classList.add('text-red-400');
+        } else if (!emailRegex.test(email)) {
+            messageDiv.textContent = "Please enter a valid email format.";
+            messageDiv.classList.add('text-red-400');
+        } else {
+            // Simulate successful subscription
+            messageDiv.textContent = `Success! Thank you for subscribing, ${email}. We'll be in touch soon.`;
+            messageDiv.classList.add('text-accent-green');
+            emailInput.value = ''; // Clear input
+            
+            // In a real app, you would send 'email' to a backend API here.
+            console.log(`Newsletter signup simulation: Email captured: ${email}`);
+        }
+
+        // Hide message after a few seconds
+        setTimeout(() => {
+            messageDiv.classList.add('hidden');
+        }, 5000);
+    };
+    // --- END NEWSLETTER SIGNUP JAVASCRIPT ---
+
+    // --- LANGUAGE TRANSLATION JAVASCRIPT ---
+    const translations = {
+        en: {
+            'hero-title': 'REVOLUTIONIZING YOUR EMBROIDERY EXPERIENCE',
+            'hero-subtitle': 'Exclusive Embroidery Offers You Can\'t Miss!',
+            'hero-description': 'Get premium custom embroidery starting at just ₹299 — quality designs tailored to your brand.',
+            'explore-products': 'Explore Our Products',
+            'request-quote': 'Request a Quote',
+            'name': 'Name',
+            'email': 'Email',
+            'phone': 'Phone',
+            'message': 'Message',
+            'submit-request': 'Submit Request',
+            'about-title': 'About',
+            'about-embrobuddies': 'EMBROBUDDIES...',
+            'about-subtitle': 'Crafting Embroidery Designs, Building Success',
+            'about-description': 'At EmbroBuddies, we\'ve successfully completed over 50 custom embroidery projects, ranging from apparel and accessories to promotional items. Our industry experience empowers us to create professional, unique, and affordable embroidery designs tailored for businesses and individuals.',
+            'guarantee1': 'We guarantee <span class="text-white font-bold">100% client satisfaction</span>.',
+            'guarantee2': 'Our commitment is unwavering.',
+            'guarantee3': 'Your happiness is our priority.',
+            'who-we-are': 'Who We Are?',
+            'mission': 'Mission',
+            'mission-text': 'To empower businesses and individuals by delivering high-quality, custom embroidery designs that enhance branding and create lasting impressions with professional craftsmanship.',
+            'vision': 'Vision',
+            'vision-text': 'To be the global leader in innovative embroidery services, recognized for unparalleled quality, client-centric designs, and pioneering the next generation of custom embroidery solutions.',
+            'goal': 'Goal',
+            'goal-text': 'Our immediate goal is to expand our portfolio to 100 successfully completed embroidery projects within the next year, maintaining our 100% client satisfaction record through excellence and reliability.',
+            'read-more': 'Read More about Our Story',
+            'range-of-products': 'Our Range of Products',
+            'single-head': 'S.H. (Single Head)',
+            'single-head-desc': 'The foundational embroidery machine for focused, high-precision stitching. Ideal for small businesses requiring robust, single-head capability.',
+            'single-head-variant': 'S.H. (Variant)',
+            'single-head-variant-desc': 'An advanced, specialized version of the Single Head embroidery machine, offering increased stitching speed and custom design integration.',
+            'multi-head': 'M.H. (Multi Head)',
+            'multi-head-desc': 'Engineered for complex, multi-layered embroidery designs. Delivers parallel stitching power for high-demand projects and bulk orders.',
+            'laser-cut': 'Laser Cut',
+            'laser-cut-desc': 'Precision laser cutting module designed for flawless, intricate fabric cutting and ultra-fine embroidery preparation.',
+            'view-all-products': 'View All Products',
+            'achievements': 'Our Achievements & Social Proof',
+            'years-experience': 'Years of Experience',
+            'satisfied-customers': 'Satisfied Customers',
+            'custom-designs': 'Custom Designs',
+            'industry-exhibitions': 'Industry Exhibitions',
+            'gallery': 'Our Gallery of Excellence',
+            'people-trust': 'People Who Trust Us',
+            'stay-updated': 'Stay Updated',
+            'newsletter-description': 'Join our exclusive mailing list to get the latest insights, product updates, and digital strategy blueprints delivered straight to your inbox.',
+            'subscribe': 'Subscribe',
+            'important-links': 'Important Links',
+            'home': 'Home',
+            'about': 'About Us',
+            'products': 'Products',
+            'blog': 'Blog',
+            'contact': 'Contact Us',
+            'our-location': 'Our Location',
+            'terms': 'Terms & Conditions',
+            'privacy': 'Privacy Policy',
+            'copyright': 'EMBROBUDDIES. All Rights Reserved.',
+            'translate': 'Translate',
+            'why-choose': 'Why Choose EmbroBuddies?',
+            'benefit1': 'Custom embroidery designs tailored to your brand',
+            'benefit2': 'High-quality materials and professional craftsmanship',
+            'benefit3': 'Fast turnaround times for urgent projects',
+            'benefit4': 'Competitive pricing with no hidden fees',
+            'benefit5': '100% satisfaction guarantee',
+            'get-started': 'Get Started Today',
+            'contact-info': 'Contact us for a free consultation and quote. We\'ll help bring your embroidery vision to life.'
+        },
+        ta: {
+            'hero-title': 'உங்கள் எம்ப்ராய்டரி அனுபவத்தை புரட்சியாக்குதல்',
+            'hero-subtitle': 'நீங்கள் தவறவிட முடியாத பிரத்யேக எம்ப்ராய்டரி சலுகைகள்!',
+            'hero-description': 'ரூ.299 முதல் தொடங்கும் பிரீமியம் தனிப்பயன் எம்ப்ராய்டரி — உங்கள் பிராண்டுக்கு ஏற்ற தரமான வடிவமைப்புகள்.',
+            'explore-products': 'எங்கள் தயாரிப்புகளை ஆராயுங்கள்',
+            'request-quote': 'மேற்கோள் கோருங்கள்',
+            'name': 'பெயர்',
+            'email': 'மின்னஞ்சல்',
+            'phone': 'தொலைபேசி',
+            'message': 'செய்தி',
+            'submit-request': 'கோரிக்கையை சமர்ப்பிக்கவும்',
+            'about-title': 'பற்றி',
+            'about-embrobuddies': 'எம்ப்ரோபட்ஸ்...',
+            'about-subtitle': 'எம்ப்ராய்டரி வடிவமைப்புகளை உருவாக்குதல், வெற்றியை கட்டியெழுப்புதல்',
+            'about-description': 'எம்ப்ரோபட்ஸில், ஆடை மற்றும் பொருட்கள் முதல் பிரச்சார பொருட்கள் வரை 50க்கும் மேற்பட்ட தனிப்பயன் எம்ப்ராய்டரி திட்டங்களை வெற்றிகரமாக முடித்துள்ளோம். எங்கள் தொழில்துறை அனுபவம் வணிகங்கள் மற்றும் தனிநபர்களுக்கு ஏற்ற தொழில்முறை, தனித்துவமான மற்றும் மலிவான எம்ப்ராய்டரி வடிவமைப்புகளை உருவாக்குவதை சக்திபடுத்துகிறது.',
+            'guarantee1': 'நாங்கள் <span class="text-white font-bold">100% வாடிக்கையாளர் திருப்தியை</span> உத்தரவாதம் செய்கிறோம்.',
+            'guarantee2': 'எங்கள் உறுதிப்பாடு மாறாதது.',
+            'guarantee3': 'உங்கள் மகிழ்ச்சி எங்கள் முன்னுரிமை.',
+            'who-we-are': 'நாங்கள் யார்?',
+            'mission': 'நோக்கம்',
+            'mission-text': 'வணிகங்கள் மற்றும் தனிநபர்களை அதிக தரமான தனிப்பயன் எம்ப்ராய்டரி வடிவமைப்புகளை வழங்குவதன் மூலம் அதிகரிப்பதற்கும், தொழில்முறை கைவினைத்திறனுடன் நீடித்த தாக்கங்களை உருவாக்குவதற்கும்.',
+            'vision': 'பார்வை',
+            'vision-text': 'புதுமையான எம்ப்ராய்டரி சேவைகளில் உலகளாவிய தலைவராக இருப்பது, ஒப்பற்ற தரம், வாடிக்கையாளர் மையப்படுத்தப்பட்ட வடிவமைப்புகள் மற்றும் தனிப்பயன் எம்ப்ராய்டரி தீர்வுகளின் அடுத்த தலைமுறையை முன்னோடியாக அங்கீகரிக்கப்படுகிறது.',
+            'goal': 'இலக்கு',
+            'goal-text': 'எங்கள் போர்ட்ஃபோலியோவை அடுத்த ஆண்டில் 100 வெற்றிகரமான எம்ப்ராய்டரி திட்டங்களை முடிக்கும் வகையில் விரிவுபடுத்துவது, சிறப்பு மற்றும் நம்பகத்தன்மை மூலம் எங்கள் 100% வாடிக்கையாளர் திருப்தி பதிவை பராமரிப்பது.',
+            'read-more': 'எங்கள் கதையை மேலும் படிக்கவும்',
+            'range-of-products': 'எங்கள் தயாரிப்புகளின் வரம்பு',
+            'single-head': 'எஸ்.எச். (ஒற்றை தலை)',
+            'single-head-desc': 'கவனம் செலுத்தப்பட்ட உயர் துல்லியமான தையலுக்கு அறக்கட்டளை எம்ப்ராய்டரி இயந்திரம். ஒற்றை தலை திறன் தேவைப்படும் சிறிய வணிகங்களுக்கு ஏற்றது.',
+            'single-head-variant': 'எஸ்.எச். (மாறுபாடு)',
+            'single-head-variant-desc': 'ஒற்றை தலை எம்ப்ராய்டரி இயந்திரத்தின் மேம்பட்ட, சிறப்பு பதிப்பு, அதிகரித்த தையல் விரைவு மற்றும் தனிப்பயன் வடிவமைப்பு ஒருங்கிணைப்பை வழங்குகிறது.',
+            'multi-head': 'எம்.எச். (பல தலை)',
+            'multi-head-desc': 'சிக்கலான, பல அடுக்கு எம்ப்ராய்டரி வடிவமைப்புகளுக்கு வடிவமைக்கப்பட்டது. உயர் தேவை திட்டங்கள் மற்றும் மொத்த ஆர்டர்களுக்கு இணையான தையல் சக்தியை வழங்குகிறது.',
+            'laser-cut': 'லேசர் வெட்டு',
+            'laser-cut-desc': 'குறைபாடற்ற, சிக்கலான துணி வெட்டு மற்றும் மிகவும் நுண்ணிய எம்ப்ராய்டரி தயாரிப்புக்கு வடிவமைக்கப்பட்ட துல்லியமான லேசர் வெட்டு தொகுதி.',
+            'view-all-products': 'அனைத்து தயாரிப்புகளையும் பார்க்கவும்',
+            'achievements': 'எங்கள் சாதனைகள் மற்றும் சமூக ஆதாரம்',
+            'years-experience': 'அனுபவ ஆண்டுகள்',
+            'satisfied-customers': 'திருப்தியான வாடிக்கையாளர்கள்',
+            'custom-designs': 'தனிப்பயன் வடிவமைப்புகள்',
+            'industry-exhibitions': 'தொழில்துறை கண்காட்சிகள்',
+            'gallery': 'எங்கள் சிறப்புகளின் கேலரி',
+            'people-trust': 'எங்களை நம்பும் மக்கள்',
+            'stay-updated': 'புதுப்பித்த நிலையில் இருங்கள்',
+            'newsletter-description': 'எங்கள் பிரத்யேக அஞ்சல் பட்டியலில் சேர்ந்து, சமீபத்திய நுண்ணறிவுகள், தயாரிப்பு புதுப்பித்தல்கள் மற்றும் டிஜிட்டல் உத்தி வரைபடங்களை உங்கள் இன்பாக்ஸில் பெறுங்கள்.',
+            'subscribe': 'சந்தா',
+            'important-links': 'முக்கிய இணைப்புகள்',
+            'home': 'முகப்பு',
+            'about': 'எங்களைப் பற்றி',
+            'products': 'தயாரிப்புகள்',
+            'blog': 'வலைப்பதிவு',
+            'contact': 'தொடர்பு கொள்ளுங்கள்',
+            'our-location': 'எங்கள் இடம்',
+            'terms': 'சலுகைகள் மற்றும் நிபந்தனைகள்',
+            'privacy': 'தனியுரிமை கொள்கை',
+            'copyright': 'எம்ப்ரோபட்ஸ். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
+            'translate': 'மொழிபெயர்க்கவும்',
+            'why-choose': 'எம்ப்ரோபட்ஸை ஏன் தேர்வு செய்ய வேண்டும்?',
+            'benefit1': 'உங்கள் பிராண்டுக்கு ஏற்ற தனிப்பயன் எம்ப்ராய்டரி வடிவமைப்புகள்',
+            'benefit2': 'உயர் தரமான பொருட்கள் மற்றும் தொழில்முறை கைவினைத்திறன்',
+            'benefit3': 'அவசர திட்டங்களுக்கு விரைவான திருப்பி அனுப்பும் நேரங்கள்',
+            'benefit4': 'மறைக்கப்பட்ட கட்டணங்கள் இல்லாத போட்டித்தன்மை வாய்ந்த விலை',
+            'benefit5': '100% திருப்தி உத்தரவாதம்',
+            'get-started': 'இன்றே தொடங்குங்கள்',
+            'contact-info': 'ஒரு இலவச ஆலோசனை மற்றும் மேற்கோள் கோருங்கள். உங்கள் எம்ப்ராய்டரி பார்வையை உயிர்ப்பிக்க உதவுவோம்.'
+        },
+        ml: {
+            'hero-title': 'നിങ്ങളുടെ എംബ്രോയിഡറി അനുഭവം വിപ്ലവീകരിക്കുന്നു',
+            'hero-subtitle': 'നിങ്ങൾക്ക് നഷ്ടപ്പെടുത്താൻ കഴിയാത്ത എക്സ്ക്ലൂസിവ് എംബ്രോയിഡറി ഓഫറുകൾ!',
+            'hero-description': '₹299 മുതൽ ആരംഭിക്കുന്ന പ്രീമിയം കസ്റ്റം എംബ്രോയിഡറി — നിങ്ങളുടെ ബ്രാൻഡിന് അനുയോജ്യമായ ഗുണമേന്മയുള്ള ഡിസൈനുകൾ.',
+            'explore-products': 'ഞങ്ങളുടെ ഉൽപ്പന്നങ്ങൾ പര്യവേക്ഷണം ചെയ്യുക',
+            'request-quote': 'ക്വോട്ട് അഭ്യർത്ഥിക്കുക',
+            'name': 'പേര്',
+            'email': 'ഇമെയിൽ',
+            'phone': 'ഫോൺ',
+            'message': 'സന്ദേശം',
+            'submit-request': 'അഭ്യർത്ഥന സമർപ്പിക്കുക',
+            'about-title': 'കുറിച്ച്',
+            'about-embrobuddies': 'എംബ്രോബഡ്സ്...',
+            'about-subtitle': 'എംബ്രോയിഡറി ഡിസൈനുകൾ സൃഷ്ടിക്കുന്നു, വിജയം നിർമ്മിക്കുന്നു',
+            'about-description': 'എംബ്രോബഡ്സിൽ, ആപ്പറൽ മുതൽ പ്രമോഷണൽ ഇറ്റംസ് വരെ 50-ലധികം കസ്റ്റം എംബ്രോയിഡറി പ്രോജക്റ്റുകൾ വിജയകരമായി പൂർത്തിയാക്കിയിട്ടുണ്ട്. ഞങ്ങളുടെ വ്യവസായ അനുഭവം ബിസിനസുകൾക്കും വ്യക്തികൾക്കും അനുയോജ്യമായ പ്രൊഫഷണൽ, അദ്വിതീയ, കിഫായത്തായ എംബ്രോയിഡറി ഡിസൈനുകൾ സൃഷ്ടിക്കാൻ ശക്തിപ്പെടുത്തുന്നു.',
+            'guarantee1': 'ഞങ്ങൾ <span class="text-white font-bold">100% ക്ലയന്റ് സംതൃപ്തി</span> ഉറപ്പുനൽകുന്നു.',
+            'guarantee2': 'ഞങ്ങളുടെ പ്രതിബദ്ധത മാറ്റമില്ലാത്തതാണ്.',
+            'guarantee3': 'നിങ്ങളുടെ സന്തോഷം ഞങ്ങളുടെ മുൻഗണനയാണ്.',
+            'who-we-are': 'ഞങ്ങൾ ആരാണ്?',
+            'mission': 'ലക്ഷ്യം',
+            'mission-text': 'ബിസിനസുകൾക്കും വ്യക്തികൾക്കും ഉയർന്ന നിലവാരമുള്ള കസ്റ്റം എംബ്രോയിഡറി ഡിസൈനുകൾ നൽകി ശക്തിപ്പെടുത്തുക, പ്രൊഫഷണൽ കരകൗശലത്തോടെ ബ്രാൻഡിംഗ് മെച്ചപ്പെടുത്തുകയും ശാശ്വത ഇംപ്രഷനുകൾ സൃഷ്ടിക്കുകയും ചെയ്യുക.',
+            'vision': 'ദർശനം',
+            'vision-text': 'നൂതന എംബ്രോയിഡറി സേവനങ്ങളിൽ ലോകനേതാവായി മാറുക, അതുല്യമായ ഗുണം, ക്ലയന്റ്-കേന്ദ്രീകൃത ഡിസൈനുകൾ, കസ്റ്റം എംബ്രോയിഡറി സൊല്യൂഷനുകളുടെ അടുത്ത തലമുറയെ നയിക്കുന്നതിന് അംഗീകരിക്കപ്പെടുക.',
+            'goal': 'ലക്ഷ്യം',
+            'goal-text': 'അടുത്ത വർഷം 100 വിജയകരമായ എംബ്രോയിഡറി പ്രോജക്റ്റുകൾ പൂർത്തിയാക്കാൻ ഞങ്ങളുടെ പോർട്ട്ഫോളിയോ വിപുലീകരിക്കുക, ഉത്കർഷതയും വിശ്വാസ്യതയും വഴി ഞങ്ങളുടെ 100% ക്ലയന്റ് സംതൃപ്തി രേഖ പരിപാലിക്കുക.',
+            'read-more': 'ഞങ്ങളുടെ കഥ കൂടുതൽ വായിക്കുക',
+            'range-of-products': 'ഞങ്ങളുടെ ഉൽപ്പന്നങ്ങളുടെ ശ്രേണി',
+            'single-head': 'എസ്.എച്ച്. (സിംഗിൾ ഹെഡ്)',
+            'single-head-desc': 'ഫോക്കസ്ഡ്, ഹൈ-പ്രെസിഷൻ സ്റ്റിച്ചിംഗിനുള്ള അടിസ്ഥാന എംബ്രോയിഡറി മെഷീൻ. റോബസ്റ്റ്, സിംഗിൾ-ഹെഡ് കഴിവ് ആവശ്യമായ ചെറിയ ബിസിനസുകൾക്ക് അനുയോജ്യം.',
+            'single-head-variant': 'എസ്.എച്ച്. (വേരിയന്റ്)',
+            'single-head-variant-desc': 'സിംഗിൾ ഹെഡ് എംബ്രോയിഡറി മെഷീന്റെ വിപുലീകരിച്ച, സ്പെഷ്യലൈസ്ഡ് പതിപ്പ്, വർദ്ധിച്ച സ്റ്റിച്ചിംഗ് വേഗതയും കസ്റ്റം ഡിസൈൻ ഇന്റഗ്രേഷനും നൽകുന്നു.',
+            'multi-head': 'എം.എച്ച്. (മൾട്ടി ഹെഡ്)',
+            'multi-head-desc': 'കോംപ്ലക്സ്, മൾട്ടി-ലെയർഡ് എംബ്രോയിഡറി ഡിസൈനുകൾക്കായി എഞ്ചിനീയർ ചെയ്തത്. ഹൈ-ഡിമാൻഡ് പ്രോജക്റ്റുകൾക്കും ബൾക്ക് ഓർഡറുകൾക്കും പാരലൽ സ്റ്റിച്ചിംഗ് പവർ നൽകുന്നു.',
+            'laser-cut': 'ലേസർ കട്ട്',
+            'laser-cut-desc': 'ഫ്ലോളെസ്, ഇൻട്രിക്കേറ്റ് ഫാബ്രിക് കട്ടിംഗിനും അൾട്രാ-ഫൈൻ എംബ്രോയിഡറി പ്രിപ്പറേഷനുള്ളതിനും രൂപകൽപ്പന ചെയ്ത പ്രെസിഷൻ ലേസർ കട്ടിംഗ് മൊഡ്യൂൾ.',
+            'view-all-products': 'എല്ലാ ഉൽപ്പന്നങ്ങളും കാണുക',
+            'achievements': 'ഞങ്ങളുടെ നേട്ടങ്ങളും സോഷ്യൽ പ്രൂഫും',
+            'years-experience': 'അനുഭവ വർഷങ്ങൾ',
+            'satisfied-customers': 'സംതൃപ്തരായ ക്ലയന്റുകൾ',
+            'custom-designs': 'കസ്റ്റം ഡിസൈനുകൾ',
+            'industry-exhibitions': 'ഇൻഡസ്ട്രി എക്സിബിഷനുകൾ',
+            'gallery': 'ഞങ്ങളുടെ മികവിന്റെ ഗാലറി',
+            'people-trust': 'ഞങ്ങളെ വിശ്വസിക്കുന്ന ആളുകൾ',
+            'stay-updated': 'അപ്ഡേറ്റ് ചെയ്തിരിക്കുക',
+            'newsletter-description': 'ഞങ്ങളുടെ എക്സ്ക്ലൂസിവ് മെയിലിംഗ് ലിസ്റ്റിൽ ചേരുക, ഏറ്റവും പുതിയ ഇൻസൈറ്റുകൾ, ഉൽപ്പന്ന അപ്ഡേറ്റുകൾ, ഡിജിറ്റൽ സ്ട്രാറ്റജി ബ്ലൂപ്രിന്റുകൾ നിങ്ങളുടെ ഇൻബോക്സിൽ ലഭിക്കാൻ.',
+            'subscribe': 'സബ്സ്ക്രൈബ് ചെയ്യുക',
+            'important-links': 'പ്രധാന ലിങ്കുകൾ',
+            'home': 'ഹോം',
+            'about': 'ഞങ്ങളെക്കുറിച്ച്',
+            'products': 'ഉൽപ്പന്നങ്ങൾ',
+            'blog': 'ബ്ലോഗ്',
+            'contact': 'ബന്ധപ്പെടുക',
+            'our-location': 'ഞങ്ങളുടെ സ്ഥലം',
+            'terms': 'നിബന്ധനകളും വ്യവസ്ഥകളും',
+            'privacy': 'സ്വകാര്യതാ നയം',
+            'copyright': 'എംബ്രോബഡ്സ്. എല്ലാ അവകാശങ്ങളും സംരക്ഷിതം.',
+            'translate': 'അനുവദിക്കുക',
+            'why-choose': 'എംബ്രോബഡ്സ് എന്തുകൊണ്ട് തിരഞ്ഞെടുക്കണം?',
+            'benefit1': 'നിങ്ങളുടെ ബ്രാൻഡിന് അനുയോജ്യമായ കസ്റ്റം എംബ്രോയിഡറി ഡിസൈനുകൾ',
+            'benefit2': 'ഉയർന്ന നിലവാരമുള്ള മെറ്റീരിയലുകളും പ്രൊഫഷണൽ കരകൗശലവും',
+            'benefit3': 'അർജന്റ് പ്രോജക്റ്റുകൾക്കുള്ള വേഗത്തിലുള്ള ടേൺഅറൗണ്ട് സമയങ്ങൾ',
+            'benefit4': 'മറഞ്ഞിരിക്കുന്ന ഫീസുകളില്ലാത്ത മത്സരാധിഷ്ഠിത വിലനിർണ്ണയം',
+            'benefit5': '100% സംതൃപ്തി ഗ്യാരണ്ടി',
+            'get-started': 'ഇന്ന് തുടങ്ങുക',
+            'contact-info': 'ഒരു സൗജന്യ കൺസൾട്ടേഷനും ക്വോട്ടും വേണ്ടി ഞങ്ങളെ ബന്ധപ്പെടുക. നിങ്ങളുടെ എംബ്രോയിഡറി വിഷൻ ജീവിതത്തിലേക്ക് കൊണ്ടുവരാൻ ഞങ്ങൾ സഹായിക്കും.'
+        }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+        console.log('setLanguage called with lang:', lang);
+        currentLang = lang;
+        const elements = document.querySelectorAll('[data-key]');
+        console.log('Found', elements.length, 'elements with data-key');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-key');
+            console.log('Processing key:', key, 'for element:', el);
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+                console.log('Translated:', key, 'to:', translations[lang][key]);
+            } else {
+                console.warn('No translation for key:', key, 'in lang:', lang);
+            }
+        });
+        // Hide menu
+        const menu = document.getElementById('language-menu');
+        if (menu) {
+            menu.classList.add('hidden');
+            console.log('Language menu hidden');
+        } else {
+            console.error('Language menu not found');
+        }
+    }
+
+    // --- END LANGUAGE TRANSLATION JAVASCRIPT ---
+
+    // --- SCROLL REVEAL JAVASCRIPT ---
+    const initScrollReveal = () => {
+        const observerOptions = {
+            // Root is the viewport by default (null)
+            rootMargin: '0px',
+            // Trigger when 10% of the element is visible
+            threshold: 0.1 
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const delay = parseInt(target.getAttribute('data-delay')) || 0;
+                    
+                    // Wait for the specified delay before revealing
+                    setTimeout(() => {
+                        // 1. Remove the hidden state and directional classes
+                        target.classList.remove('is-hidden', 'reveal-fade-left', 'reveal-fade-right');
+                        
+                        // 2. Stop observing once animated
+                        observer.unobserve(target);
+                    }, delay);
+                }
+            });
+        }, observerOptions);
+
+        // Select all elements marked for animation
+        const revealElements = document.querySelectorAll('.scroll-reveal-item');
+
+        // Start observing each element
+        revealElements.forEach(el => {
+            // Ensure the element has the initial 'hidden' state
+            el.classList.add('is-hidden'); 
+            observer.observe(el);
+        });
+    };
+    // --- END SCROLL REVEAL JAVASCRIPT ---
+
+    // --- LIGHTBOX JAVASCRIPT ---
+    // Function to open the lightbox
+    const openLightbox = (imgSrc, imgAlt) => {
+        const modal = document.getElementById('lightbox-modal');
+        const image = document.getElementById('lightbox-image');
+        
+        image.src = imgSrc;
+        image.alt = imgAlt;
+        
+        // Simple way to handle the caption based on alt text
+        document.getElementById('lightbox-caption').textContent = imgAlt;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // Display flex to center content
+    };
+
+    // Function to close the lightbox
+    const closeLightbox = (event, forceClose = false) => {
+        const modal = document.getElementById('lightbox-modal');
+        
+        // Check if click was outside the image content, or force close
+        if (forceClose || event.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        // Stop propagation if clicking the close button or modal itself, 
+        // but not if clicking the image container (which we don't want to close)
+        if (event && event.stopPropagation) {
+            if (event.target !== modal && event.target.id !== 'lightbox-image') {
+                event.stopPropagation();
+            }
+        }
+    };
+
+    // Initialization: Add event listeners to gallery items
+    const initGallery = () => {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Get the high-res image source from data-img attribute
+                const imgSrc = item.getAttribute('data-img');
+                // Get the alt text from the image inside the item
+                const imgAlt = item.querySelector('img')?.alt || '';
+                
+                if (imgSrc) {
+                    openLightbox(imgSrc, imgAlt);
+                }
+            });
+        });
+    };
+    // --- END LIGHTBOX JAVASCRIPT ---
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize Scroll Reveal
+        initScrollReveal(); 
+
+        // Initialize Gemini button click handler
+        const pitchButton = document.getElementById('generate-pitch-btn');
+        if (pitchButton) {
+            pitchButton.addEventListener('click', generatePitch);
+        }
+
+        // Initialize Quote Form handler
+        const quoteForm = document.getElementById('quote-form');
+        if (quoteForm) {
+            quoteForm.addEventListener('submit', handleQuoteForm);
+        }
+
+        // Initialize Translate Button
+        const translateBtn = document.getElementById('translate-btn');
+        const languageMenu = document.getElementById('language-menu');
+        if (translateBtn && languageMenu) {
+            translateBtn.addEventListener('click', () => {
+                languageMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#language-menu button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
+            // Hide menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!translateBtn.contains(event.target) && !languageMenu.contains(event.target)) {
+                    languageMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        // Initialize Gallery Lightbox handlers
+        initGallery();
+    });
+</script>
+
+</body>
+</html>
